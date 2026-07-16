@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy-950: #0f172a;
+  --color-navy-900: #111c33;
+  --color-navy-800: #16223d;
+  --color-brand-cyan: #00a8e8;
+  --color-brand-cyan-light: #44c7f3;
+  --color-brand-blue: #3394f0;
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.bento-articles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  grid-auto-rows: 160px;
+}
+
+@media (min-width: 1024px) {
+  .bento-articles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-areas: "a b b c" "a d e c" "f f g g";
+    height: 620px;
+  }
+  .bento-articles > [data-area="a"] { grid-area: a; }
+  .bento-articles > [data-area="b"] { grid-area: b; }
+  .bento-articles > [data-area="c"] { grid-area: c; }
+  .bento-articles > [data-area="d"] { grid-area: d; }
+  .bento-articles > [data-area="e"] { grid-area: e; }
+  .bento-articles > [data-area="f"] { grid-area: f; }
+  .bento-articles > [data-area="g"] { grid-area: g; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
