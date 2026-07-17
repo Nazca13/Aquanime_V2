@@ -4,9 +4,8 @@ import { ecosystemCards } from "@/config";
 export default function EcosystemSection() {
   return (
     <section id="ekosistem" className="relative">
-      {/* Layer stack sized to the artwork's native 1440x900 ratio */}
       <div className="relative aspect-[1440/900] w-full">
-        {/* Base background layer */}
+        {/* Background layer */}
         <Image
           src="/images/ecosystem-bg.png"
           alt=""
@@ -15,7 +14,7 @@ export default function EcosystemSection() {
           aria-hidden="true"
         />
 
-        {/* Diagonal cards + watermark artwork (has transparency, sits on the bg) */}
+        {/* Diagonal cards artwork (transparent PNG layered on top) */}
         <Image
           src="/images/ecosystem-cards.png"
           alt="Ekosistem AquaNime: Komunitas, Cosplay, Proyek Kreatif, Media, Digital Platform"
@@ -23,7 +22,7 @@ export default function EcosystemSection() {
           className="object-cover"
         />
 
-        {/* Heading overlays the empty space at the top-left of the artwork */}
+        {/* Heading overlay */}
         <div className="absolute inset-x-0 top-0">
           <div className="mx-auto max-w-7xl px-6 pt-[7%] lg:px-10">
             <h2 className="font-heading text-2xl font-extrabold leading-tight text-navy-950 sm:text-3xl lg:text-4xl">
@@ -32,7 +31,7 @@ export default function EcosystemSection() {
           </div>
         </div>
 
-        {/* Invisible clickable regions over each diagonal card */}
+        {/* Clickable regions over each card */}
         <div className="absolute inset-x-0 bottom-0 top-[28%] mx-auto flex max-w-[1440px]">
           {ecosystemCards.map((card) => (
             <a

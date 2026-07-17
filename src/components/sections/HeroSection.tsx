@@ -6,9 +6,8 @@ export default function HeroSection() {
   return (
     <section
       id="beranda"
-      className="relative overflow-hidden bg-navy-950"
+      className="relative overflow-hidden bg-navy-950 pt-24"
     >
-      {/* Background illustration: already includes gradient, grid pattern & sparkle fx */}
       <div className="absolute inset-0">
         <Image
           src="/images/hero-character.png"
