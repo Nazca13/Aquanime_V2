@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  title: AquaNime Portal Backend API
+  description: |-
+    Spesifikasi API untuk integrasi Backend AquaNime Portal V2.
+    Dokumentasi ini ditujukan bagi Backend Developer untuk mengimplementasikan
+    endpoint yang dibutuhkan oleh frontend (Auth, Kontak, Event, dan Berita).
+  version: 2.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Development Server (Next.js API Routes / External proxy)
+  - url: https://api.aquanime.org/v1
+    description: Production API Server
+paths:
+  /auth/signup:
+    post:
+      summary: Registrasi Akun Baru
+      description: Mendaftarkan user baru ke ekosistem AquaNime.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  example: username_kamu
+                  minLength: 3
+                email:
+                  type: string
+                  format: email
+                  example: email@kamu.com
+                password:
+                  type: string
+                  format: password
+                  example: rahasia123
+                  minLength: 8
+      responses:
+        '201':
+          description: User berhasil terdaftar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Pendaftaran berhasil. silakan verifikasi email Anda.
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: usr_8725921
+                      username:
+                        type: string
+                        example: username_kamu
+                      email:
+                        type: string
+                        example: email@kamu.com
+        '400':
+          description: Validasi input gagal atau email sudah terdaftar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email sudah terdaftar.
+  /auth/signin:
+    post:
+      summary: Autentikasi / Login User
+      description: Masuk ke portal menggunakan email & password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: email@kamu.com
+                password:
+                  type: string
+                  format: password
+                  example: rahasia123
+      responses:
+        '200':
+          description: Login sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: usr_8725921
+                      username:
+                        type: string
+                        example: username_kamu
+                      email:
+                        type: string
+                        example: email@kamu.com
+        '401':
+          description: Email atau password salah
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email atau password tidak cocok.
+  /contact:
+    post:
+      summary: Kirim Formulir Hubungi Kami
+      description: Menerima pesan masukan/pertanyaan dari halaman kontak portal.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - subject
+                - message
+              properties:
+                name:
+                  type: string
+                  example: Nama Lengkap
+                email:
+                  type: string
+                  format: email
+                  example: email@kamu.com
+                subject:
+                  type: string
+                  example: Kolaborasi Media Partner
+                message:
+                  type: string
+                  example: Halo, kami ingin berkolaborasi dalam event Fest 2025...
+      responses:
+        '200':
+          description: Pesan sukses terkirim
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Pesan berhasil dikirim. Terima kasih!
+  /events:
+    get:
+      summary: Ambil Kalender Event
+      description: Mendapatkan daftar agenda/event komunitas AquaNime mendatang.
+      responses:
+        '200':
+          description: Daftar event berhasil dimuat
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      type: string
+                      example: AquaNime Regional Meetup
+                    date:
+                      type: string
+                      format: date
+                      example: "2026-08-20"
+                    location:
+                      type: string
+                      example: Jakarta Barat
+                    category:
+                      type: string
+                      enum: [Gathering, Kompetisi, Live, Workshop]
+                      example: Gathering
+                    color:
+                      type: string
+                      example: "#00a8e8"
+  /news:
+    get:
+      summary: Ambil Berita Terbaru (Bento Grid)
+      description: Mendapatkan maksimal 6 artikel berita terpopuler/terbaru untuk bento grid portal.
+      responses:
+        '200':
+          description: Daftar berita berhasil diambil
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+              description: CORS Header wajib jika diload cross-origin
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 6
+                items:
+                  type: object
+                  required:
+                    - id
+                    - title
+                    - excerpt
+                    - category
+                    - date
+                    - readTime
+                    - image
+                    - url
+                  properties:
+                    id:
+                      type: string
+                      example: "1"
+                    title:
+                      type: string
+                      example: "AquaNime Fest 2025: Rayakan Budaya Pop-Kultur Jepang Bersama Komunitas"
+                    excerpt:
+                      type: string
+                      example: "Event tahunan terbesar AquaNime kembali hadir dengan panggung cosplay, pameran kreator lokal..."
+                    category:
+                      type: string
+                      example: "Event"
+                    date:
+                      type: string
+                      example: "15 Jan 2025"
+                    readTime:
+                      type: string
+                      example: "4 min read"
+                    image:
+                      type: string
+                      format: uri
+                      example: "https://nama-web-berita-anda.com/images/news-1.png"
+                    url:
+                      type: string
+                      format: uri
+                      example: "https://nama-web-berita-anda.com/posts/aquanime-fest-2025"
