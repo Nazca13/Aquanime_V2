@@ -6,6 +6,10 @@
 export interface NavLink {
   readonly label: string;
   readonly href: string;
+  readonly dropdown?: readonly {
+    readonly label: string;
+    readonly href: string;
+  }[];
 }
 
 /** Stat badge displayed in the Hero section */

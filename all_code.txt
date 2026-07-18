@@ -50,31 +50,6 @@ export default config;
 
 
 
-eslint.config.mjs :
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
-
-const eslintConfig = [
-  ...nextVitals,
-  ...nextTs,
-  {
-    ignores: [
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
-    ],
-    rules: {
-      "@next/next/no-page-custom-font": "off",
-    },
-  },
-];
-
-export default eslintConfig;
-
-
-
-
 tsconfig.json :
 {
   "compilerOptions": {
@@ -552,14 +527,234 @@ h1, h2, h3, h4, .font-heading {
 
 
 src/app/kontak/page.tsx :
-import ComingSoonPage from "@/components/ui/ComingSoonPage";
+"use client";
+
+import { useState } from "react";
+import { Navbar, Footer } from "@/components/layout";
+import { Container } from "@/components/ui";
+
+const SOCIAL_LINKS = [
+  {
+    label: "Instagram",
+    href: "https://instagram.com/aquanime",
+    icon: (
+      <svg className="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Twitter / X",
+    href: "https://twitter.com/aquanime",
+    icon: (
+      <svg className="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com/@aquanime",
+    icon: (
+      <svg className="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.108C19.53 3.5 12 3.5 12 3.5s-7.53 0-9.388.555A3.003 3.003 0 00.5 6.163C0 8.07 0 12 0 12s0 3.93.5 5.837a3.003 3.003 0 002.11 2.108c1.858.555 9.388.555 9.388.555s7.53 0 9.388-.555a3.003 3.003 0 002.11-2.108C24 15.93 24 12 24 12s0-3.93-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Discord",
+    href: "https://discord.gg/aquanime",
+    icon: (
+      <svg className="h-5 w-5 text-indigo-400" fill="currentColor" viewBox="0 0 127.14 96.36">
+        <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.56-.41,1.11-.84,1.64-1.29a75.64,75.64,0,0,0,67.6,0c.53.45,1.08.88,1.64,1.29a68.43,68.43,0,0,1-10.5,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31-18.83C129,54.65,122.84,31.58,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z" />
+      </svg>
+    ),
+  },
+];
 
 export default function KontakPage() {
+  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSent(true);
+  }
+
   return (
-    <ComingSoonPage
-      title="Hubungi Kami"
-      subtitle="Formulir kontak, informasi kerjasama, dan cara terhubung dengan tim AquaNime. Segera hadir!"
-    />
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-navy-950">
+
+        {/* ── Header ── */}
+        <section className="relative overflow-hidden bg-navy-950 pt-28 pb-20">
+          <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-950/90 to-brand-cyan/10" />
+          <Container className="relative z-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-cyan">KONTAK</p>
+            <h1 className="mt-3 font-heading text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+              HUBUNGI<br />
+              <span className="text-brand-cyan-light">TIM KAMI</span>
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/75">
+              Ada pertanyaan, ide kolaborasi, atau ingin bergabung sebagai mitra? Kami senang
+              mendengar dari Anda. Tim AquaNime siap merespons dalam 1×24 jam.
+            </p>
+          </Container>
+        </section>
+
+        {/* ── Contact Area ── */}
+        <section className="py-20">
+          <Container>
+            <div className="grid gap-10 lg:grid-cols-5">
+
+              {/* Left: Info */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+                  <h2 className="font-heading text-xl font-bold text-white">Informasi Kontak</h2>
+                  <ul className="mt-5 space-y-4 text-sm text-white/70">
+                    <li className="flex items-start gap-3">
+                      <span className="mt-0.5 text-brand-cyan shrink-0">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </span>
+                      <span>Jl. Kreativitas No. 1, Indonesia</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-0.5 text-brand-cyan shrink-0">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </span>
+                      <span>hello@aquanime.org</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-0.5 text-brand-cyan shrink-0">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                      </span>
+                      <span>+62 812-3456-7890</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-0.5 text-brand-cyan shrink-0">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </span>
+                      <span>Senin – Jumat, 09.00 – 17.00 WIB</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+                  <h2 className="font-heading text-xl font-bold text-white">Media Sosial</h2>
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    {SOCIAL_LINKS.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-semibold text-white/80 transition-all hover:bg-white/15 hover:text-white"
+                      >
+                        {s.icon}
+                        {s.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Form */}
+              <div className="lg:col-span-3">
+                <div className="rounded-3xl border border-white/20 bg-white/10 p-8 backdrop-blur-sm">
+                  {sent ? (
+                    <div className="flex flex-col items-center justify-center py-16 text-center">
+                      <div className="mb-4 text-brand-cyan">
+                        <svg className="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="font-heading text-2xl font-bold text-white">Pesan Terkirim!</h3>
+                      <p className="mt-2 text-white/60">Kami akan menghubungi kamu dalam 1×24 jam.</p>
+                      <button
+                        onClick={() => { setSent(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
+                        className="mt-6 rounded-full bg-brand-cyan px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-cyan-light transition-all"
+                      >
+                        Kirim Pesan Lain
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <h2 className="font-heading text-xl font-bold text-white">Kirim Pesan</h2>
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/50">Nama Lengkap</label>
+                          <input
+                            required
+                            type="text"
+                            value={form.name}
+                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                            placeholder="Nama kamu"
+                            className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+                          />
+                        </div>
+                        <div>
+                          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/50">Email</label>
+                          <input
+                            required
+                            type="email"
+                            value={form.email}
+                            onChange={(e) => setForm({ ...form, email: e.target.value })}
+                            placeholder="email@kamu.com"
+                            className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/50">Subjek</label>
+                        <input
+                          required
+                          type="text"
+                          value={form.subject}
+                          onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                          placeholder="Subjek pesan"
+                          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+                        />
+                      </div>
+                      <div>
+                        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/50">Pesan</label>
+                        <textarea
+                          required
+                          rows={5}
+                          value={form.message}
+                          onChange={(e) => setForm({ ...form, message: e.target.value })}
+                          placeholder="Tulis pesan kamu di sini..."
+                          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15 resize-none"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-full rounded-full bg-brand-cyan py-3 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-brand-cyan/25 transition-all hover:bg-brand-cyan-light active:scale-[0.98]"
+                      >
+                        Kirim Pesan
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          </Container>
+        </section>
+
+      </main>
+      <Footer />
+    </>
   );
 }
 
@@ -637,14 +832,689 @@ export default function Home() {
 
 
 src/app/proyek/page.tsx :
-import ComingSoonPage from "@/components/ui/ComingSoonPage";
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { Navbar, Footer } from "@/components/layout";
+import { Container } from "@/components/ui";
+
+/* ─────────────────────────────────────────────
+   DATA — ganti placeholder_* dengan foto nyata
+   Setiap proyek bisa punya 1 – N foto di images[]
+───────────────────────────────────────────────── */
+const PROJECTS = [
+  {
+    id: 1,
+    status: "Aktif",
+    title: "AquaNime Digital Platform",
+    desc: "Platform digital terpadu untuk menghubungkan kreator, penggemar, dan industri kreatif Indonesia dalam satu ekosistem. Dibangun dengan teknologi modern dan desain yang mengutamakan pengalaman pengguna.",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
+    progress: 65,
+    images: [
+      "/images/gallery/image-galery/IMG_9240 1.png",
+      "/images/gallery/image-galery/IMG_1012 1.png",
+      "/images/gallery/image-galery/IMG_8725 1.png",
+    ],
+  },
+  {
+    id: 2,
+    status: "Selesai",
+    title: "AquaNime Fest 2025",
+    desc: "Event tahunan komunitas dengan 1000+ peserta. Menampilkan panggung cosplay, pameran seni, turnamen game, workshop industri kreatif, dan sesi networking antar kreator.",
+    tech: ["Event Management", "Sponsorship", "Live Streaming"],
+    progress: 100,
+    images: [
+      "/images/gallery/image-galery/IMG_9260 1.png",
+      "/images/gallery/image-galery/IMG-20250122-WA0081 1.png",
+      "/images/gallery/image-galery/Aria's birthday! 2.png",
+    ],
+  },
+  {
+    id: 3,
+    status: "Aktif",
+    title: "AquaNime Podcast",
+    desc: "Podcast mingguan membahas budaya Jepang, anime, industri kreatif, dan perkembangan komunitas. Tersedia di Spotify, YouTube, dan Apple Podcasts.",
+    tech: ["Audio Production", "Spotify", "YouTube"],
+    progress: 80,
+    images: [
+      "/images/gallery/image-galery/IMG_1012 1.png",
+      "/images/gallery/image-galery/IMG_8725 1.png",
+    ],
+  },
+  {
+    id: 4,
+    status: "Perencanaan",
+    title: "Merchandise Store",
+    desc: "Toko resmi merchandise AquaNime dengan produk-produk edisi terbatas eksklusif komunitas: apparel, aksesori, art print, dan koleksi kolaborasi dengan kreator lokal.",
+    tech: ["E-Commerce", "Desain Produk", "Fulfillment"],
+    progress: 20,
+    images: [
+      "/images/gallery/image-galery/IMG-20250122-WA0081 1.png",
+      "/images/gallery/image-galery/IMG_9240 1.png",
+    ],
+  },
+  {
+    id: 5,
+    status: "Selesai",
+    title: "Cosplay Photography Book",
+    desc: "Buku fotografi cosplay terbaik komunitas tahun ini. Menampilkan 50+ cosplayer, fotografer profesional, dan desainer kostum dari seluruh Indonesia.",
+    tech: ["Fotografi", "Desain Grafis", "Percetakan"],
+    progress: 100,
+    images: [
+      "/images/gallery/image-galery/IMG_9260 1.png",
+      "/images/gallery/image-galery/IMG_9240 1.png",
+      "/images/gallery/image-galery/IMG_1012 1.png",
+    ],
+  },
+  {
+    id: 6,
+    status: "Perencanaan",
+    title: "AquaNime Academy",
+    desc: "Platform kursus online untuk kreator muda komunitas. Materi meliputi ilustrasi digital, desain kostum, videografi, content creation, dan manajemen komunitas.",
+    tech: ["EdTech", "Video Production", "LMS"],
+    progress: 10,
+    images: [
+      "/images/gallery/image-galery/Aria's birthday! 2.png",
+      "/images/gallery/image-galery/IMG_8725 1.png",
+    ],
+  },
+];
+
+const STATUS_STYLES: Record<string, { badge: string; dot: string }> = {
+  Aktif:       { badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30", dot: "bg-emerald-400" },
+  Selesai:     { badge: "bg-brand-cyan/20 text-brand-cyan-light border-brand-cyan/30",     dot: "bg-brand-cyan-light" },
+  Perencanaan: { badge: "bg-amber-500/20 text-amber-300 border-amber-500/30",       dot: "bg-amber-400" },
+};
+
+/* ── Per-card image carousel ── */
+function ImageCarousel({ images, title }: { images: string[]; title: string }) {
+  const [idx, setIdx] = useState(0);
+  const [animating, setAnimating] = useState(false);
+
+  const go = useCallback(
+    (next: number) => {
+      if (animating || images.length <= 1) return;
+      setAnimating(true);
+      setTimeout(() => {
+        setIdx((next + images.length) % images.length);
+        setAnimating(false);
+      }, 200);
+    },
+    [animating, images.length]
+  );
+
+  // Auto-advance every 4 s
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const t = setInterval(() => go(idx + 1), 4000);
+    return () => clearInterval(t);
+  }, [idx, go, images.length]);
+
+  return (
+    <div className="group/carousel relative h-56 w-full overflow-hidden rounded-t-3xl bg-navy-950/40">
+      {/* Image */}
+      <div
+        className={`h-full w-full transition-opacity duration-300 ${animating ? "opacity-0" : "opacity-100"}`}
+      >
+        <Image
+          src={images[idx]}
+          alt={`${title} — foto ${idx + 1}`}
+          fill
+          className="object-cover transition-transform duration-700 group-hover/carousel:scale-105"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      </div>
+
+      {/* Arrows — only when >1 image */}
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); go(idx - 1); }}
+            className="absolute left-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white opacity-0 backdrop-blur-sm transition-opacity group-hover/carousel:opacity-100 hover:bg-black/60"
+            aria-label="Foto sebelumnya"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); go(idx + 1); }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white opacity-0 backdrop-blur-sm transition-opacity group-hover/carousel:opacity-100 hover:bg-black/60"
+            aria-label="Foto berikutnya"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={(e) => { e.stopPropagation(); go(i); }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === idx ? "w-5 bg-white" : "w-1.5 bg-white/40"
+                }`}
+                aria-label={`Foto ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Counter badge */}
+          <div className="absolute right-3 top-3 rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur-sm">
+            {idx + 1}/{images.length}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ── Single project card ── */
+function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: number }) {
+  const style = STATUS_STYLES[project.status] ?? STATUS_STYLES["Aktif"];
+
+  return (
+    <article
+      className="group flex flex-col overflow-hidden rounded-3xl border border-white/20 bg-navy-950/80 transition-all duration-300 hover:-translate-y-1 hover:border-brand-cyan/40 hover:shadow-2xl hover:shadow-brand-cyan/15"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <ImageCarousel images={project.images} title={project.title} />
+
+      <div className="flex flex-1 flex-col p-6">
+        {/* Status badge */}
+        <span className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${style.badge}`}>
+          <span className={`h-1.5 w-1.5 rounded-full ${style.dot}`} />
+          {project.status}
+        </span>
+
+        <h3 className="mt-3 font-heading text-lg font-extrabold text-white group-hover:text-brand-cyan-light transition-colors">
+          {project.title}
+        </h3>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/75 flex-1">{project.desc}</p>
+
+        {/* Tech tags */}
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {project.tech.map((t) => (
+            <span key={t} className="rounded-lg border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white/70">
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* Progress bar */}
+        <div className="mt-5">
+          <div className="mb-1.5 flex justify-between text-[11px] font-semibold text-white/60">
+            <span>Progress</span>
+            <span className={project.progress === 100 ? "text-brand-cyan-light font-bold" : ""}>{project.progress}%</span>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/15">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-brand-cyan to-brand-cyan-light"
+              style={{ width: `${project.progress}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* ── Filter tabs ── */
+const FILTERS = ["Semua", "Aktif", "Selesai", "Perencanaan"] as const;
 
 export default function ProyekPage() {
+  const [filter, setFilter] = useState<string>("Semua");
+
+  const visible = filter === "Semua"
+    ? PROJECTS
+    : PROJECTS.filter((p) => p.status === filter);
+
+  const counts = {
+    Semua: PROJECTS.length,
+    Aktif: PROJECTS.filter((p) => p.status === "Aktif").length,
+    Selesai: PROJECTS.filter((p) => p.status === "Selesai").length,
+    Perencanaan: PROJECTS.filter((p) => p.status === "Perencanaan").length,
+  };
+
   return (
-    <ComingSoonPage
-      title="Proyek Kreatif"
-      subtitle="Koleksi proyek-proyek kreatif yang telah dan sedang kami kerjakan bersama komunitas. Segera hadir!"
-    />
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-navy-950">
+        {/* ── Hero ── */}
+        <section className="relative overflow-hidden bg-navy-950 pt-28 pb-16">
+          <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-950/90 to-brand-cyan/10" />
+          {/* Decorative blur orbs */}
+          <div className="absolute right-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-brand-cyan/8 blur-3xl" />
+          <div className="absolute left-1/4 bottom-0 h-48 w-48 rounded-full bg-purple-500/8 blur-3xl" />
+
+          <Container className="relative z-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-cyan">PROYEK</p>
+            <h1 className="mt-3 font-heading text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+              KARYA YANG KAMI<br />
+              <span className="text-brand-cyan-light">BANGUN BERSAMA</span>
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70">
+              Dari event skala besar hingga platform digital inovatif — setiap proyek
+              AquaNime adalah wujud nyata dari semangat kolaborasi komunitas kami.
+            </p>
+
+            {/* Stats row */}
+            <div className="mt-10 flex flex-wrap gap-6">
+              {[
+                { label: "Total Proyek", value: PROJECTS.length },
+                { label: "Sedang Berjalan", value: counts.Aktif },
+                { label: "Sudah Selesai", value: counts.Selesai },
+              ].map((s) => (
+                <div key={s.label} className="text-center">
+                  <div className="font-heading text-3xl font-extrabold text-brand-cyan-light">{s.value}</div>
+                  <div className="mt-0.5 text-xs text-white/50">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* ── Filter + Grid ── */}
+        <section className="py-16 bg-[#060c1a]">
+          <Container>
+            {/* Filter tabs */}
+            <div className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setFilter(f)}
+                  className={`rounded-full border px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
+                    filter === f
+                      ? "border-brand-cyan bg-brand-cyan/20 text-brand-cyan-light shadow-lg shadow-brand-cyan/20"
+                      : "border-white/20 bg-white/8 text-white/60 hover:border-white/40 hover:text-white"
+                  }`}
+                >
+                  {f}
+                  <span className="ml-1.5 text-[10px] opacity-70">
+                    ({counts[f as keyof typeof counts] ?? counts.Semua})
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* Cards grid */}
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {visible.map((project, i) => (
+                <ProjectCard key={project.id} project={project} delay={i * 60} />
+              ))}
+            </div>
+
+            {visible.length === 0 && (
+              <div className="mt-20 text-center text-white/50">
+                <p className="text-lg font-semibold">Tidak ada proyek ditemukan.</p>
+              </div>
+            )}
+          </Container>
+        </section>
+
+        {/* ── CTA ── */}
+        <section className="bg-[#060c1a] pb-20">
+          <Container>
+            <div className="rounded-3xl border border-brand-cyan/40 bg-brand-cyan/15 px-8 py-12 text-center">
+              <h2 className="font-heading text-3xl font-extrabold text-white sm:text-4xl">
+                Punya Ide Proyek?
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-white/60">
+                Kami selalu terbuka untuk kolaborasi baru. Hubungi tim kami dan mari wujudkan ide kreatifmu bersama AquaNime.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <a
+                  href="/kontak"
+                  className="rounded-full bg-brand-cyan px-8 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-brand-cyan/25 transition-all hover:scale-105 hover:bg-brand-cyan-light"
+                >
+                  Hubungi Kami
+                </a>
+                <a
+                  href="/signup"
+                  className="rounded-full border border-white/25 bg-white/8 px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-white/15"
+                >
+                  Bergabung Sekarang
+                </a>
+              </div>
+            </div>
+          </Container>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+
+
+
+src/app/signin/page.tsx :
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function SignInPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    alert("Fitur login sedang dalam pengembangan!");
+  }
+
+  return (
+    <div className="relative flex min-h-screen items-center overflow-hidden bg-navy-950">
+
+      {/* ── Full-bleed background character ── */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero-character.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Dark overlay on the LEFT so form is readable; right side stays vivid */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/70 to-transparent" />
+      </div>
+
+      {/* ── Form — anchored LEFT ── */}
+      <div className="relative z-10 flex w-full flex-col items-start px-6 py-20 sm:px-12 lg:px-20">
+        <div className="w-full max-w-sm">
+
+          {/* Back button */}
+          <Link
+            href="/"
+            className="mb-6 inline-flex items-center gap-2 text-xs font-semibold text-white/50 transition-colors hover:text-white"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Beranda
+          </Link>
+
+          {/* Logo */}
+          <Link href="/" className="inline-block">
+            <Image src="/logos/aquanime-logo.svg" alt="AquaNime" width={140} height={44} className="h-9 w-auto" />
+          </Link>
+
+          <div className="mt-8">
+            <h1 className="font-heading text-2xl font-extrabold text-white">Masuk ke Akun</h1>
+            <p className="mt-1 text-sm text-white/50">Selamat datang kembali</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+
+            {/* Email */}
+            <div>
+              <label htmlFor="signin-email" className="mb-1.5 block text-[11px] font-bold uppercase tracking-widest text-white/40">
+                Email
+              </label>
+              <input
+                id="signin-email"
+                type="email"
+                required
+                autoComplete="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="email@kamu.com"
+                className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/25 outline-none backdrop-blur-sm transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <div className="mb-1.5 flex items-center justify-between">
+                <label htmlFor="signin-password" className="text-[11px] font-bold uppercase tracking-widest text-white/40">
+                  Password
+                </label>
+                <Link href="#" className="text-[11px] font-semibold text-brand-cyan hover:text-brand-cyan-light transition-colors">
+                  Lupa password?
+                </Link>
+              </div>
+              <div className="relative">
+                <input
+                  id="signin-password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  autoComplete="current-password"
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  placeholder="••••••••"
+                  className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 pr-12 text-sm text-white placeholder-white/25 outline-none backdrop-blur-sm transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 transition-colors hover:text-white/70"
+                  aria-label={showPassword ? "Sembunyikan" : "Tampilkan"}
+                >
+                  {showPassword ? (
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                  ) : (
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-brand-cyan py-3 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-brand-cyan/25 transition-all hover:bg-brand-cyan-light active:scale-[0.98]"
+            >
+              Masuk
+            </button>
+          </form>
+
+          <p className="mt-6 text-sm text-white/40">
+            Belum punya akun?{" "}
+            <Link href="/signup" className="font-bold text-brand-cyan hover:text-brand-cyan-light transition-colors">
+              Daftar sekarang
+            </Link>
+          </p>
+
+          <p className="mt-10 text-xs text-white/20">
+            © {new Date().getFullYear()} AquaNime. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+src/app/signup/page.tsx :
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+function EyeIcon({ visible }: { visible: boolean }) {
+  return visible ? (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+  ) : (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+  );
+}
+
+export default function SignUpPage() {
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [form, setForm] = useState({ username: "", email: "", password: "", confirm: "" });
+
+  const mismatch = form.confirm.length > 0 && form.confirm !== form.password;
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (mismatch) return;
+    alert("Fitur pendaftaran sedang dalam pengembangan!");
+  }
+
+  return (
+    <div className="relative flex min-h-screen items-center overflow-hidden bg-navy-950">
+
+      {/* ── Full-bleed background character ── */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero-character.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Dark overlay on the LEFT so form is readable; right side stays vivid */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/70 to-transparent" />
+      </div>
+
+      {/* ── Form — anchored LEFT ── */}
+      <div className="relative z-10 flex w-full flex-col items-start px-6 py-20 sm:px-12 lg:px-20">
+        <div className="w-full max-w-sm">
+
+          {/* Back button */}
+          <Link
+            href="/"
+            className="mb-6 inline-flex items-center gap-2 text-xs font-semibold text-white/50 transition-colors hover:text-white"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali ke Beranda
+          </Link>
+
+          {/* Logo */}
+          <Link href="/" className="inline-block">
+            <Image src="/logos/aquanime-logo.svg" alt="AquaNime" width={140} height={44} className="h-9 w-auto" />
+          </Link>
+
+          <div className="mt-8">
+            <h1 className="font-heading text-2xl font-extrabold text-white">Buat Akun Baru</h1>
+            <p className="mt-1 text-sm text-white/50">Bergabung dengan komunitas kami</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+
+            {/* Username */}
+            <div>
+              <label htmlFor="signup-username" className="mb-1.5 block text-[11px] font-bold uppercase tracking-widest text-white/40">
+                Username
+              </label>
+              <input
+                id="signup-username"
+                type="text"
+                required
+                autoComplete="username"
+                value={form.username}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
+                placeholder="username_kamu"
+                className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/25 outline-none backdrop-blur-sm transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="signup-email" className="mb-1.5 block text-[11px] font-bold uppercase tracking-widest text-white/40">
+                Email
+              </label>
+              <input
+                id="signup-email"
+                type="email"
+                required
+                autoComplete="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="email@kamu.com"
+                className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/25 outline-none backdrop-blur-sm transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label htmlFor="signup-password" className="mb-1.5 block text-[11px] font-bold uppercase tracking-widest text-white/40">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="signup-password"
+                  type={showPass ? "text" : "password"}
+                  required
+                  autoComplete="new-password"
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  placeholder="Min. 8 karakter"
+                  className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 pr-12 text-sm text-white placeholder-white/25 outline-none backdrop-blur-sm transition-all focus:border-brand-cyan/60 focus:ring-2 focus:ring-brand-cyan/15"
+                />
+                <button type="button" onClick={() => setShowPass((v) => !v)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 transition-colors hover:text-white/70"
+                  aria-label={showPass ? "Sembunyikan" : "Tampilkan"}>
+                  <EyeIcon visible={showPass} />
+                </button>
+              </div>
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label htmlFor="signup-confirm" className="mb-1.5 block text-[11px] font-bold uppercase tracking-widest text-white/40">
+                Konfirmasi Password
+              </label>
+              <div className="relative">
+                <input
+                  id="signup-confirm"
+                  type={showConfirm ? "text" : "password"}
+                  required
+                  autoComplete="new-password"
+                  value={form.confirm}
+                  onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+                  placeholder="Ulangi password"
+                  className={`w-full rounded-xl border px-4 py-3 pr-12 text-sm text-white placeholder-white/25 outline-none backdrop-blur-sm transition-all focus:ring-2 bg-white/10 ${
+                    mismatch
+                      ? "border-red-400/50 focus:border-red-400/70 focus:ring-red-400/15"
+                      : "border-white/15 focus:border-brand-cyan/60 focus:ring-brand-cyan/15"
+                  }`}
+                />
+                <button type="button" onClick={() => setShowConfirm((v) => !v)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 transition-colors hover:text-white/70"
+                  aria-label={showConfirm ? "Sembunyikan" : "Tampilkan"}>
+                  <EyeIcon visible={showConfirm} />
+                </button>
+              </div>
+              {mismatch && <p className="mt-1.5 text-[11px] text-red-400">Password tidak cocok.</p>}
+            </div>
+
+            <button
+              type="submit"
+              disabled={mismatch}
+              className="w-full rounded-xl bg-brand-cyan py-3 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-brand-cyan/25 transition-all hover:bg-brand-cyan-light active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+            >
+              Buat Akun
+            </button>
+          </form>
+
+          <p className="mt-6 text-sm text-white/40">
+            Sudah punya akun?{" "}
+            <Link href="/signin" className="font-bold text-brand-cyan hover:text-brand-cyan-light transition-colors">
+              Masuk sekarang
+            </Link>
+          </p>
+
+          <p className="mt-10 text-xs text-white/20">
+            © {new Date().getFullYear()} AquaNime. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -658,7 +1528,7 @@ export default function TentangPage() {
   return (
     <ComingSoonPage
       title="Tentang Kami"
-      subtitle="Cerita perjalanan AquaNime dari komunitas jejepangan hingga menjadi ekosistem kreatif yang menginspirasi. Segera hadir!"
+      subtitle="Cari tahu lebih banyak tentang visi, misi, dan perjalanan AquaNime dalam membangun ekosistem kreatif. Segera hadir!"
     />
   );
 }
@@ -791,6 +1661,8 @@ export default function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4 lg:px-8">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-full border border-white/30 bg-white/20 px-4 py-2.5 shadow-lg backdrop-blur-xl sm:gap-4 sm:px-6 sm:py-3 lg:px-8">
+
+        {/* ── Logo ── */}
         <Link href="/" className="shrink-0">
           <Image
             src="/logos/aquanime-logo.svg"
@@ -802,9 +1674,65 @@ export default function Navbar() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        {/* ── Desktop Nav ── */}
+        <nav className="hidden items-center gap-0 lg:flex">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive =
+              pathname === link.href ||
+              (link.dropdown?.some((sub) => pathname === sub.href) ?? false);
+
+            if (link.dropdown) {
+              return (
+                <div key={link.href} className="group relative">
+                  {/* Trigger button */}
+                  <button
+                    type="button"
+                    className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold tracking-wide transition-all xl:px-5 ${
+                      isActive
+                        ? "bg-white text-navy-950 shadow-sm"
+                        : "text-white/90 hover:text-white"
+                    }`}
+                  >
+                    {link.label.toUpperCase()}
+                    <svg
+                      className="h-3.5 w-3.5 opacity-70 transition-transform duration-200 group-hover:rotate-180"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown panel */}
+                  <div className="invisible absolute left-1/2 top-full mt-2 w-48 -translate-x-1/2 rounded-2xl border border-white/20 bg-navy-950/95 p-1.5 opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                    {/* Small arrow */}
+                    <div className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 rounded-sm border-l border-t border-white/20 bg-navy-950/95" />
+                    {link.dropdown.map((sublink) => {
+                      const isSubActive = pathname === sublink.href;
+                      return (
+                        <Link
+                          key={sublink.href}
+                          href={sublink.href}
+                          className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                            isSubActive
+                              ? "bg-brand-cyan/20 text-brand-cyan-light"
+                              : "text-white/80 hover:bg-white/10 hover:text-white"
+                          }`}
+                        >
+                          {sublink.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={link.href}
@@ -821,12 +1749,19 @@ export default function Navbar() {
           })}
         </nav>
 
-        <div className="hidden lg:block">
+        {/* ── Desktop Right Actions: Masuk / Daftar ── */}
+        <div className="hidden items-center gap-3 lg:flex">
           <Link
-            href="#portal"
-            className="relative inline-flex items-center rounded-full bg-white px-6 py-2.5 text-sm font-bold text-navy-950 shadow-md transition-transform hover:scale-105"
+            href="/signin"
+            className="rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wide text-white/90 transition-all hover:text-white"
           >
-            PORTAL
+            Masuk
+          </Link>
+          <Link
+            href="/signup"
+            className="relative inline-flex items-center rounded-full bg-white px-6 py-2.5 text-xs font-bold uppercase tracking-wide text-navy-950 shadow-md transition-transform hover:scale-105"
+          >
+            Daftar
             <Image
               src="/images/chibi_portal.svg"
               alt=""
@@ -837,6 +1772,8 @@ export default function Navbar() {
           </Link>
         </div>
 
+
+        {/* ── Mobile Hamburger ── */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -854,32 +1791,72 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* ── Mobile Nav Panel ── */}
       {open && (
         <nav className="mt-2 flex flex-col gap-1 rounded-2xl border border-white/30 bg-navy-950/90 px-4 pb-4 pt-2 shadow-lg backdrop-blur-xl lg:hidden">
           {navLinks.map((link) => {
+            if (link.dropdown) {
+              return (
+                <div key={link.href} className="flex flex-col">
+                  {/* Section label */}
+                  <div className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                    {link.label}
+                  </div>
+                  {link.dropdown.map((sublink) => {
+                    const isSubActive = pathname === sublink.href;
+                    return (
+                      <Link
+                        key={sublink.href}
+                        href={sublink.href}
+                        onClick={() => setOpen(false)}
+                        className={`rounded-lg py-3 pl-8 pr-4 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                          isSubActive
+                            ? "bg-brand-cyan/20 text-brand-cyan-light"
+                            : "text-white/80 hover:bg-white/10"
+                        }`}
+                      >
+                        {sublink.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              );
+            }
+
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-lg px-4 py-3 text-sm font-semibold transition-colors ${
+                className={`rounded-lg px-4 py-3 text-xs font-semibold uppercase tracking-wider transition-colors ${
                   isActive
                     ? "bg-brand-cyan/20 text-brand-cyan-light"
                     : "text-white/90 hover:bg-white/10"
                 }`}
               >
-                {link.label.toUpperCase()}
+                {link.label}
               </Link>
             );
           })}
-          <Link
-            href="#portal"
-            onClick={() => setOpen(false)}
-            className="mt-2 rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-navy-950 shadow-md"
-          >
-            PORTAL
-          </Link>
+
+          {/* ── Mobile Auth buttons ── */}
+          <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
+            <Link
+              href="/signin"
+              onClick={() => setOpen(false)}
+              className="rounded-full border border-white/25 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/5"
+            >
+              Masuk
+            </Link>
+            <Link
+              href="/signup"
+              onClick={() => setOpen(false)}
+              className="rounded-full bg-brand-cyan py-2.5 text-center text-xs font-bold uppercase tracking-wide text-white shadow-lg shadow-brand-cyan/30 transition-colors hover:bg-brand-cyan-light"
+            >
+              Daftar
+            </Link>
+          </div>
         </nav>
       )}
     </header>
@@ -948,11 +1925,198 @@ export default function AboutSection() {
 
 
 src/components/sections/ArticlesSection.tsx :
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Container, SectionHeading } from "@/components/ui";
 
-const boxes = ["a", "b", "c", "d", "e", "f", "g"];
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * DOKUMENTASI INTEGRASI BERITA U
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 
+ * Bagian ini dirancang untuk menampilkan 6 berita terbaru secara dinamis dari
+ * website berita eksternal berbasis Next.js milik AquaNime.
+ * 
+ * CARA MENGHUBUNGKAN:
+ * 1. Masukkan URL endpoint API berita Anda pada konstanta `NEWS_API_URL` di bawah.
+ *    Contoh: "https://nama-web-berita-anda.com/api/news"
+ * 2. Jika `NEWS_API_URL` dibiarkan kosong (""), komponen otomatis menggunakan
+ *    data lokal default (Mock Data) agar website tetap stabil & tidak kosong.
+ * 
+ * ─────────────────────────────────────────────────────────────────────────────
+ * LANGKAH IMPLEMENTASI DI SISI WEBSITE BERITA (NEXT.JS EKSTERNAL):
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 
+ * A. Buat API Route baru di Project Web Berita Anda di: `src/app/api/news/route.ts`
+ * 
+ *    import { NextResponse } from "next/server";
+ * 
+ *    export async function GET() {
+ *      // Ambil data terbaru dari database atau headless CMS Anda
+ *      const latestNews = [
+ *        {
+ *          id: "1",
+ *          title: "AquaNime Fest 2025: Rayakan Budaya Pop-Kultur Jepang Bersama Komunitas",
+ *          excerpt: "Event tahunan terbesar AquaNime kembali hadir dengan panggung cosplay...",
+ *          category: "Event",
+ *          date: "15 Jan 2025",
+ *          readTime: "4 min read",
+ *          image: "https://nama-web-berita-anda.com/images/news-1.png", // URL gambar penuh
+ *          url: "https://nama-web-berita-anda.com/posts/aquanime-fest-2025" // URL artikel penuh
+ *        },
+ *        // ... isi sampai maksimal 6 postingan terbaru
+ *      ];
+ * 
+ *      return NextResponse.json(latestNews, {
+ *        headers: {
+ *          // Izinkan domain portal AquaNime untuk mengambil data (CORS Bypass)
+ *          "Access-Control-Allow-Origin": "*",
+ *          "Access-Control-Allow-Methods": "GET, OPTIONS",
+ *          "Access-Control-Allow-Headers": "Content-Type",
+ *        }
+ *      });
+ *    }
+ * 
+ * B. Konfigurasi Iframe Header (Wajib agar Berita Bisa Dibuka dalam Modal Portal):
+ *    Secara default, browser memblokir situs Anda dimuat dalam iframe (untuk mencegah clickjacking).
+ *    Di `next.config.js` website berita Anda, tambahkan konfigurasi headers berikut:
+ * 
+ *    const nextConfig = {
+ *      async headers() {
+ *        return [
+ *          {
+ *            // Terapkan izin frame ke seluruh halaman artikel berita Anda
+ *            source: "/posts/:path*", 
+ *            headers: [
+ *              {
+ *                key: "Content-Security-Policy",
+ *                value: "frame-ancestors 'self' https://aquanime.org http://localhost:3000",
+ *              },
+ *            ],
+ *          },
+ *        ];
+ *      }
+ *    };
+ *    
+ *    module.exports = nextConfig;
+ */
+
+// Ubah URL ini ke URL endpoint API web berita eksternal Anda (Next.js)
+const NEWS_API_URL = "";
+
+interface Article {
+  id: string | number;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readTime: string;
+  image: string;
+  url: string;
+}
+
+const MOCK_ARTICLES: Article[] = [
+  {
+    id: 1,
+    title: "AquaNime Fest 2025: Rayakan Budaya Pop-Kultur Jepang Bersama Komunitas",
+    excerpt: "Event tahunan terbesar AquaNime kembali hadir dengan panggung cosplay, pameran kreator lokal, turnamen game, hingga diskusi industri kreatif.",
+    category: "Event",
+    date: "Jan 15, 2025",
+    readTime: "4 min read",
+    image: "/images/gallery/image-galery/IMG_9240 1.png",
+    url: "https://aquanime.org/news/aquanime-fest-2025",
+  },
+  {
+    id: 2,
+    title: "Mengintip Keseruan Weekend Cosplay Gathering Terbesar Awal Tahun Ini",
+    excerpt: "Lebih dari ratusan cosplayer dari berbagai daerah berkumpul untuk membagikan antusiasme mereka, melakukan sesi pemotretan, dan berjejaring.",
+    category: "Gathering",
+    date: "Feb 02, 2025",
+    readTime: "3 min read",
+    image: "/images/gallery/image-galery/IMG_9260 1.png",
+    url: "https://aquanime.org/news/cosplay-gathering-2025",
+  },
+  {
+    id: 3,
+    title: "Bagaimana Membangun Karir di Industri Kreatif sebagai Digital Artist",
+    excerpt: "Rangkuman dari kelas seni digital bersama para ilustrator profesional yang berbagi tips seputar portofolio, klien, dan adaptasi teknologi baru.",
+    category: "Workshop",
+    date: "Feb 20, 2025",
+    readTime: "5 min read",
+    image: "/images/gallery/image-galery/IMG_1012 1.png",
+    url: "https://aquanime.org/news/karir-digital-artist",
+  },
+  {
+    id: 4,
+    title: "AquaNime Podcast: Menjelajahi Sejarah Musik Budaya Jepang",
+    excerpt: "Di episode terbaru podcast kami, host dan bintang tamu mengupas tuntas transformasi lagu anime dari era J-Pop klasik hingga modern.",
+    category: "Media",
+    date: "Mar 05, 2025",
+    readTime: "8 min read",
+    image: "/images/gallery/image-galery/IMG-20250122-WA0081 1.png",
+    url: "https://aquanime.org/news/aquanime-podcast-jpop",
+  },
+  {
+    id: 5,
+    title: "Eksplorasi Budaya Populer Jepang di Indonesia: Dulu dan Sekarang",
+    excerpt: "Ulasan mendalam mengenai perkembangan komunitas peminat anime, manga, dan cosplay yang terus berkembang pesat dalam satu dekade terakhir.",
+    category: "Budaya",
+    date: "Mar 18, 2025",
+    readTime: "6 min read",
+    image: "/images/gallery/image-galery/IMG_8725 1.png",
+    url: "https://aquanime.org/news/eksplorasi-pop-kultur",
+  },
+  {
+    id: 6,
+    title: "Merayakan Ulang Tahun Maskot Kita, Aria, yang Penuh dengan Kreativitas",
+    excerpt: "Komunitas merayakan ulang tahun Aria dengan mengirimkan ratusan karya seni buatan penggemar (fan-art), merchandise, dan cerita mini.",
+    category: "Komunitas",
+    date: "Apr 01, 2025",
+    readTime: "3 min read",
+    image: "/images/gallery/image-galery/Aria's birthday! 2.png",
+    url: "https://aquanime.org/news/hbd-aria-2025",
+  },
+];
 
 export default function ArticlesSection() {
+  const [articles, setArticles] = useState<Article[]>(MOCK_ARTICLES);
+  const [loading, setLoading] = useState(false);
+  const [activeIframeUrl, setActiveIframeUrl] = useState<string | null>(null);
+  const [activeTitle, setActiveTitle] = useState<string>("");
+
+  useEffect(() => {
+    if (!NEWS_API_URL) return;
+
+    setLoading(true);
+    async function fetchExternalNews() {
+      try {
+        const res = await fetch(NEWS_API_URL);
+        if (!res.ok) throw new Error("Gagal mengambil data dari API Berita");
+        
+        const data = await res.json();
+        // Validasi struktur data array dari API
+        if (Array.isArray(data)) {
+          setArticles(data.slice(0, 6));
+        } else {
+          throw new Error("Format API berita harus berupa Array");
+        }
+      } catch (err) {
+        console.error("Gagal memuat berita eksternal, menggunakan data lokal:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchExternalNews();
+  }, []);
+
+  const handleCardClick = (title: string, url: string) => {
+    setActiveTitle(title);
+    setActiveIframeUrl(url);
+  };
+
   return (
     <section
       id="wawasan"
@@ -967,16 +2131,139 @@ export default function ArticlesSection() {
           <span className="text-brand-cyan">INSPIRASI TERBARU</span>
         </SectionHeading>
 
-        <div className="bento-articles mt-10">
-          {boxes.map((area) => (
+        {loading ? (
+          /* Premium Skeleton Loader */
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex flex-col h-[400px] rounded-2xl border border-white/60 bg-white/40 animate-pulse overflow-hidden"
+              >
+                <div className="h-48 w-full bg-slate-200/50" />
+                <div className="p-5 flex-1 flex flex-col gap-3">
+                  <div className="h-4 w-24 bg-slate-200/60 rounded" />
+                  <div className="h-6 w-full bg-slate-200/70 rounded mt-2" />
+                  <div className="h-4 w-3/4 bg-slate-200/60 rounded" />
+                  <div className="h-4 w-full bg-slate-200/50 rounded mt-auto" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          /* 6 Grid Cards */
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {articles.map((article) => (
+              <button
+                key={article.id}
+                type="button"
+                onClick={() => handleCardClick(article.title, article.url)}
+                className="group flex flex-col h-full rounded-2xl border border-white/60 bg-white/80 text-left shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-cyan/40 hover:shadow-md overflow-hidden cursor-pointer"
+              >
+                {/* Thumbnail Image */}
+                <div className="relative h-48 w-full overflow-hidden bg-slate-100 shrink-0">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  {/* Category Badge */}
+                  <span className="absolute left-4 top-4 rounded-full bg-brand-cyan/95 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white shadow-sm">
+                    {article.category}
+                  </span>
+                </div>
+
+                {/* Card Details */}
+                <div className="flex flex-col flex-1 p-5">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                    <span>{article.date}</span>
+                    <span>•</span>
+                    <span>{article.readTime}</span>
+                  </div>
+                  <h4
+                    className="mt-2 text-base font-bold text-navy-950 line-clamp-2 group-hover:text-brand-cyan transition-colors"
+                    dangerouslySetInnerHTML={{ __html: article.title }}
+                  />
+                  <p className="mt-2 text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                    {article.excerpt}
+                  </p>
+
+                  {/* Read More button at the bottom */}
+                  <div className="mt-auto pt-4 flex items-center gap-1 text-xs font-bold text-brand-cyan group-hover:text-brand-cyan-light transition-colors">
+                    BACA SELENGKAPNYA
+                    <svg
+                      className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-1"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        d="M6 3l5 5-5 5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Embedded Iframe Reader Modal */}
+        {activeIframeUrl && (
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-navy-950/90 p-4 backdrop-blur-md"
+            onClick={() => setActiveIframeUrl(null)}
+          >
             <div
-              key={area}
-              data-area={area}
-              className="rounded-2xl border border-white/60 bg-white/80 shadow-sm backdrop-blur-sm"
-              aria-hidden="true"
-            />
-          ))}
-        </div>
+              className="relative flex h-[85vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl border border-white/20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between bg-navy-950 px-6 py-4 text-white shrink-0">
+                <h3 className="text-sm sm:text-base font-bold truncate pr-4" dangerouslySetInnerHTML={{ __html: activeTitle }} />
+                <div className="flex items-center gap-2 shrink-0">
+                  <a
+                    href={activeIframeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full bg-brand-cyan hover:bg-brand-cyan-light px-4 py-1.5 text-xs font-semibold text-white transition shadow-sm"
+                  >
+                    Buka di Tab Baru
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setActiveIframeUrl(null)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/80 transition hover:bg-white/20 hover:text-white"
+                    aria-label="Tutup"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Informative Note for Cross-Origin frames */}
+              <div className="bg-slate-100 px-6 py-2 text-[11px] text-slate-500 border-b border-slate-200 shrink-0">
+                💡 <span className="font-semibold">Catatan:</span> Halaman ini dimuat langsung dari portal berita utama kami. Jika halaman tidak termuat, klik tombol <span className="font-semibold text-brand-cyan">"Buka di Tab Baru"</span> di kanan atas.
+              </div>
+
+              {/* Iframe Container */}
+              <div className="flex-1 min-h-0 w-full bg-slate-50 relative">
+                <iframe
+                  src={activeIframeUrl}
+                  title={activeTitle}
+                  className="h-full w-full border-0"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </Container>
     </section>
   );
@@ -1485,8 +2772,10 @@ export default function HeroSection() {
           alt=""
           fill
           priority
-          className="object-cover object-right"
+          className="object-cover object-right-top opacity-60 sm:opacity-80 sm:object-right"
         />
+        {/* Dark gradient overlay – stronger on mobile so text stays legible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-transparent sm:from-navy-950/80 sm:via-navy-950/30" />
       </div>
 
       <Container className="relative z-10 pb-16 pt-16 lg:pb-24 lg:pt-20">
@@ -1961,10 +3250,16 @@ import type { NavLink } from "@/types";
 
 export const navLinks: readonly NavLink[] = [
   { label: "Beranda", href: "/" },
-  { label: "Tentang", href: "/tentang" },
+  {
+    label: "Tentang",
+    href: "/tentang",
+    dropdown: [
+      { label: "Tentang Kami", href: "/tentang" },
+      { label: "Gallery", href: "/gallery" },
+    ],
+  },
   { label: "Ekosistem", href: "/ekosistem" },
   { label: "Proyek", href: "/proyek" },
-  { label: "Gallery", href: "/gallery" },
   { label: "Kontak", href: "/kontak" },
 ];
 
@@ -1980,6 +3275,10 @@ src/types/index.ts :
 export interface NavLink {
   readonly label: string;
   readonly href: string;
+  readonly dropdown?: readonly {
+    readonly label: string;
+    readonly href: string;
+  }[];
 }
 
 /** Stat badge displayed in the Hero section */

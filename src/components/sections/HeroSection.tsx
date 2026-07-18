@@ -14,8 +14,10 @@ export default function HeroSection() {
           alt=""
           fill
           priority
-          className="object-cover object-right"
+          className="object-cover object-right-top opacity-60 sm:opacity-80 sm:object-right"
         />
+        {/* Dark gradient overlay – stronger on mobile so text stays legible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/60 to-transparent sm:from-navy-950/80 sm:via-navy-950/30" />
       </div>
 
       <Container className="relative z-10 pb-16 pt-16 lg:pb-24 lg:pt-20">
